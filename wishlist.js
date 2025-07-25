@@ -1,0 +1,2 @@
+import{p as s,o as d,a as l,d as c,u as t,W as a,g as u,r as h,C as o}from"./assets/modal-CxUU27lN.js";import"./assets/vendor-DGDcxXwr.js";i();s.addEventListener("click",d);l.addEventListener("click",p);function p(){c(a,i)}async function i(){t(o),t(a);const r=JSON.parse(localStorage.getItem(a))||[];if(r.length===0){s.innerHTML="<li><h2>Список бажаного порожній.</h2></li>";return}try{const e=await Promise.all(r.map(({id:n})=>u(n)));h(e,s),t(o),t(a)}catch(e){console.error("Не вдалося завантажити список бажаного:",e)}}
+//# sourceMappingURL=wishlist.js.map
