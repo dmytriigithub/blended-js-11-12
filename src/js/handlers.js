@@ -33,8 +33,8 @@ export async function handlerClearInput(form) {
     form.reset();
 
     try {
-        const products = await getProducts(PRODUCTS_LIST_URL)
-        renderCardsList(products);
+        const data = await getProducts(PRODUCTS_LIST_URL)
+        renderCardsList(data.products);
 
     } catch (error) {
         console.error("Помилка:", error);
@@ -54,7 +54,7 @@ export async function handlerInputSearch(event) {
 
     try {
         const searchProducts = await getProductBySearch(PRODUCT_SEARCH_URL, searchValue);
-        renderCardsList(searchProducts);
+        renderCardsList(searchProducts.products);
     } catch (error) {
         console.error("Помилка:", error);
     }
