@@ -1,7 +1,7 @@
 import { products, notFound } from "./refs";
 import { productsCardMarkup } from "./render-function";
 import { CART_PRODUCT_LS_KEY, WISHLIST_PRODUCT_LS_KEY } from "./constants";
-import { getProduct } from "./products-api";
+import { getProductById } from "./products-api";
 import { closeModal } from "./modal";
 
 export function renderCardsList(items) {
@@ -33,11 +33,11 @@ export async function deleteFromList(key, loadlistPage) {
 
         try {
             const wishProducts = await Promise.all(
-                wishlist.map(({ id }) => getProduct(id))
+                wishlist.map(({ id }) => getProductById(id))
             );
 
             renderCardsList(wishProducts, products);
-            updateNavCount(WISHLIST_PRODUCT_LS_KEY);
+            updateNavCount(key);
 
         } catch (error) {
             console.error('Не вдалося завантажити список бажаного:', error);
@@ -45,6 +45,21 @@ export async function deleteFromList(key, loadlistPage) {
 
         loadlistPage();
         closeModal();
+
+    }
+}
+
+
+export function hidden(products) {
+    const loadMoreBtn = document.querySelector('.load-more-btn');
+
+
+    const { skip, limit, total } = products;
+
+    if (skip + limit < total) {
+        loadMoreBtn.classList.remove('is-hidden');
+    } else {
+        loadMoreBtn.classList.add('is-hidden');
 
     }
 }

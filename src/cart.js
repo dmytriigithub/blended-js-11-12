@@ -1,7 +1,7 @@
 import { products, addToCartBtn, buyBtn, price, count } from "./js/refs";
 import { openModal } from "./js/modal";
 import { CART_PRODUCT_LS_KEY, WISHLIST_PRODUCT_LS_KEY } from "./js/constants";
-import { getProduct } from "./js/products-api";
+import { getProductById } from "./js/products-api";
 import { updateNavCount, renderCardsList, deleteFromList } from "./js/helpers";
 import { onBuy } from "./js/handlers";
 
@@ -36,7 +36,7 @@ async function loadCartlistPage() {
         const wishProducts = await Promise.all(
             wishlist.map(({ id, price }) => {
                 totalPrice += price;
-                return getProduct(id)
+                return getProductById(id)
             })
         );
 

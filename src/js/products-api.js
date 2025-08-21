@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { limit, currentPage } from './constants';
-
+import { limit } from './constants';
 
 // 1. https://dummyjson.com/docs/products - документація бекенду, розділ продукти
 // 2. https://dummyjson.com/products?limit=10&skip=10 - отримати всі продукти з пагінацією
@@ -11,38 +10,49 @@ import { limit, currentPage } from './constants';
 
 
 
-export const getCategoryList = async (url) => {
-    const response = await axios.get(url);
+export const getCategoryList = async () => {
+    const response = await axios.get('https://dummyjson.com/products/category-list');
     return response.data;
 }
 
-export const getProducts = async (url, category = '', currentPage = 1) => {
+export const getProducts = async (currentPage = 1) => {
 
-    const response = await axios.get(`${url}/${category}`, {
+    const response = await axios.get('https://dummyjson.com/products/', {
         params: {
             limit,
             skip: (currentPage - 1) * limit
         }
     })
     console.log(response.data);  //-------------------log
-
     return response.data;
 }
 
-export const getProduct = async (id) => {
+export const getProductsByCategory = async (category, currentPage = 1) => {
+
+    const response = await axios.get(`https://dummyjson.com/products/category/${category}`, {
+        params: {
+            limit,
+            skip: (currentPage - 1) * limit
+        }
+    })
+    console.log(response.data);  //-------------------log
+    return response.data;
+}
+
+export const getProductById = async (id) => {
     const response = await axios.get(`https://dummyjson.com/products/${id}`);
     return response.data;
 }
 
-export const getProductBySearch = async (url, q) => {
+export const getProductBySearch = async (q, currentPage = 1) => {
 
-    const response = await axios.get(url, {
+    const response = await axios.get('https://dummyjson.com/products/search', {
         params: {
             q,
             limit,
             skip: (currentPage - 1) * limit
         }
     })
-
+    console.log(response.data);  //-------------------log
     return response.data;
 }

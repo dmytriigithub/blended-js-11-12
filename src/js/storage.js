@@ -1,5 +1,5 @@
 import { updateNavCount } from "./helpers";
-import { getProduct } from "./products-api";
+import { getProductById } from "./products-api";
 
 export async function toggleStorageItem(productId, key, button, label) {
     let items = JSON.parse(localStorage.getItem(key)) || [];
@@ -7,7 +7,7 @@ export async function toggleStorageItem(productId, key, button, label) {
 
     if (index === -1) {
         try {
-            const product = await getProduct(productId)
+            const product = await getProductById(productId)
             items.push(product);
             localStorage.setItem(key, JSON.stringify(items));
             button.textContent = `Remove from ${label}`;

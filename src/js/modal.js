@@ -1,4 +1,4 @@
-import { getProduct } from "./products-api";
+import { getProductById } from "./products-api";
 import { modal, modalProduct, modalCloseBtn, addToCartBtn, addToWishlistBtn } from "./refs";
 import { productModalMarkup } from "./render-function";
 import { CART_PRODUCT_LS_KEY, WISHLIST_PRODUCT_LS_KEY } from "./constants";
@@ -20,7 +20,7 @@ export async function openModal(event) {
 
 
     try {
-        const product = await getProduct(currentProductId);
+        const product = await getProductById(currentProductId);
 
         modalProduct.innerHTML = productModalMarkup(product);
         modal.classList.add("modal--is-open");

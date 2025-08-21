@@ -1,19 +1,19 @@
 //Логіка сторінки Home
-import { CATEGORY_LIST_URL, PRODUCTS_LIST_URL, CART_PRODUCT_LS_KEY, WISHLIST_PRODUCT_LS_KEY, currentPage } from "./js/constants";
+import { CART_PRODUCT_LS_KEY, WISHLIST_PRODUCT_LS_KEY } from "./js/constants";
 import { categories, products, searchForm, searchFormBtnClear, loadMoreBtn } from "./js/refs";
 import { categoriesItemMarkup, productsCardMarkup } from "./js/render-function";
 import { getCategoryList, getProducts } from "./js/products-api";
-import { handlerCategoriesFilter, handlerInputSearch, handlerClearInput } from "./js/handlers";
+import { handlerCategoriesFilter, handlerInputSearch, handlerClearInput, onLoadMore } from "./js/handlers";
 import { openModal } from "./js/modal";
-import { updateNavCount } from "./js/helpers";
+import { updateNavCount, hidden } from "./js/helpers";
 
-let page = currentPage;
 updateNavCount(CART_PRODUCT_LS_KEY);
 updateNavCount(WISHLIST_PRODUCT_LS_KEY);
 
 categories.addEventListener('click', handlerCategoriesFilter);
 searchForm.addEventListener('submit', handlerInputSearch);
 products.addEventListener('click', openModal);
+loadMoreBtn.addEventListener('click', onLoadMore);
 
 searchFormBtnClear.addEventListener('click', (event) => {
     if (event.target === searchFormBtnClear) {
@@ -26,31 +26,23 @@ initHomePage();
 
 async function initHomePage() {
     try {
-        const categoryList = await getCategoryList(CATEGORY_LIST_URL);
+        const categoryList = await getCategoryList();
         const allCategories = ['All', ...categoryList];
         categories.insertAdjacentHTML('beforeend', categoriesItemMarkup(allCategories));
     } catch (error) {
         console.log("Помилка при отриманні категорій:", error);
     }
 
-    initProducts()
+    initProducts();
 }
 
-async function initProducts(currentPage) {
+async function initProducts() {
 
     try {
-        const productsList = await getProducts(PRODUCTS_LIST_URL, '', currentPage);
+        const productsList = await getProducts();
         products.insertAdjacentHTML('beforeend', productsCardMarkup(productsList.products));
+        hidden(productsList);
     } catch (error) {
         console.log("Помилка при отриманні продуктів:", error);
     }
 }
-
-console.log(currentPage);
-
-
-loadMoreBtn.addEventListener('click', () => {
-    page += 1;
-    initProducts(page)
-
-})

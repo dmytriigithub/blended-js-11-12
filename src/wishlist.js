@@ -4,7 +4,7 @@ import { WISHLIST_PRODUCT_LS_KEY, CART_PRODUCT_LS_KEY } from "./js/constants";
 import { products, addToWishlistBtn } from "./js/refs";
 import { openModal } from "./js/modal";
 import { updateNavCount, deleteFromList, renderCardsList } from "./js/helpers";
-import { getProduct } from "./js/products-api";
+import { getProductById } from "./js/products-api";
 
 
 
@@ -30,7 +30,7 @@ export async function loadWishlistPage() {
 
     try {
         const wishProducts = await Promise.all(
-            wishlist.map(({ id }) => getProduct(id))
+            wishlist.map(({ id }) => getProductById(id))
         );
 
         renderCardsList(wishProducts, products);
